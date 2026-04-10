@@ -1,0 +1,14 @@
+# Datasets
+ML/data/
+
+# Models
+ML/models/
+*.pkl
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter notebooks
+.ipynb_checkpoints/
