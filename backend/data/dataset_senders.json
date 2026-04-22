@@ -1,0 +1,20 @@
+[
+  {
+    "sender_id": "S1",
+    "spam_rate": 0.2,
+    "avg_length": 30,
+    "link_density": 0.1,
+    "total": 50,
+    "score": 80,
+    "status": "Safe"
+  },
+  {
+    "sender_id": "S2",
+    "spam_rate": 0.6,
+    "avg_length": 40,
+    "link_density": 0.3,
+    "total": 60,
+    "score": 40,
+    "status": "Suspicious"
+  }
+]

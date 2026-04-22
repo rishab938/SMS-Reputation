@@ -1,8 +1,8 @@
 # Datasets
-ML/data/
+ml/data/
 
 # Models
-ML/models/
+ml/models/
 *.pkl
 
 # Python artifacts
@@ -12,3 +12,7 @@ __pycache__/
 
 # Jupyter notebooks
 .ipynb_checkpoints/
+ml/notebooks/
+
+# Zips
+*.zip
