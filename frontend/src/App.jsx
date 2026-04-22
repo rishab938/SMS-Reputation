@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Leaderboard from "./pages/Leaderboard";
@@ -8,27 +9,43 @@ import SenderDetails from "./pages/SenderDetails";
 
 import Layout from "./components/Layout";
 
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return <Layout>{children}</Layout>;
+};
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* Public Routes */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route path="/dashboard" element={
-          <Layout><Dashboard /></Layout>
-        } />
+        {/* Protected Routes */}
+        <Route 
+          path="/dashboard" 
+          element={<ProtectedRoute><Dashboard /></ProtectedRoute>} 
+        />
+        <Route 
+          path="/leaderboard" 
+          element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} 
+        />
+        <Route 
+          path="/new" 
+          element={<ProtectedRoute><NewSender /></ProtectedRoute>} 
+        />
+        <Route 
+          path="/sender/:id" 
+          element={<ProtectedRoute><SenderDetails /></ProtectedRoute>} 
+        />
 
-        <Route path="/leaderboard" element={
-          <Layout><Leaderboard /></Layout>
-        } />
-
-        <Route path="/new" element={
-          <Layout><NewSender /></Layout>
-        } />
-
-        <Route path="/sender/:id" element={
-          <Layout><SenderDetails /></Layout>
-        } />
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

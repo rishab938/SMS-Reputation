@@ -29,5 +29,12 @@
         ],
         "spam_count": 0,
         "total": 1
+    },
+    "S102": {
+        "messages": [
+            "Your bank account has been suspended due to suspicious activity.\nVerify immediately: http://secure-bank-update.com"
+        ],
+        "spam_count": 1,
+        "total": 1
     }
 }

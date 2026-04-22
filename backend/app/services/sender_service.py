@@ -1,33 +1,41 @@
-from backend.app.services.storage_service import load_data, save_data
+from sqlalchemy.orm import Session
+from backend.app.models.db_models import Sender, Message
 from backend.app.services.scoring_service import compute_score, get_status
 
-
-def update_sender(sender_id: str, message: str, is_spam: bool):
-    data = load_data()
-
-    if sender_id not in data:
-        data[sender_id] = {
-            "messages": [],
-            "spam_count": 0,
-            "total": 0
-        }
-
-    sender = data[sender_id]
-
+def update_sender(db: Session, sender_id: str, message_text: str, is_spam: bool):
+    # Find or create sender
+    sender = db.query(Sender).filter(Sender.sender_id == sender_id).first()
+    
+    if not sender:
+        sender = Sender(sender_id=sender_id, total_messages=0, spam_count=0, score=100.0, status="Safe")
+        db.add(sender)
+    
+    # Create message entry
+    new_message = Message(
+        sender_id=sender_id,
+        message_text=message_text,
+        is_spam=is_spam
+    )
+    db.add(new_message)
+    
     # Update stats
-    sender["messages"].append(message)
-    sender["total"] += 1
-
+    sender.total_messages += 1
     if is_spam:
-        sender["spam_count"] += 1
+        sender.spam_count += 1
+    
+    # Recompute score
+    spam_rate = sender.spam_count / sender.total_messages if sender.total_messages > 0 else 0
+    sender.score = compute_score(spam_rate)
+    sender.status = get_status(sender.score)
+    
+    db.commit()
+    db.refresh(sender)
+    return sender
 
-    save_data(data)
-
-
-def get_sender_data(sender_id: str):
-    data = load_data()
-
-    if sender_id not in data:
+def get_sender_data(db: Session, sender_id: str):
+    sender = db.query(Sender).filter(Sender.sender_id == sender_id).first()
+    
+    if not sender:
         return {
             "sender_id": sender_id,
             "spam_rate": 0,
@@ -37,31 +45,23 @@ def get_sender_data(sender_id: str):
             "score": 100,
             "status": "Safe"
         }
-
-    sender = data[sender_id]
-
-    total = sender["total"]
-    spam_count = sender["spam_count"]
-
-    spam_rate = spam_count / total if total > 0 else 0
-
-    # Compute avg length
-    messages = sender["messages"]
-    avg_length = sum(len(m) for m in messages) / total if total > 0 else 0
-
-    # Simple link density
-    link_count = sum(1 for m in messages if "http" in m)
+    
+    # Get messages for additional metrics
+    messages = db.query(Message).filter(Message.sender_id == sender_id).all()
+    
+    total = sender.total_messages
+    spam_rate = sender.spam_count / total if total > 0 else 0
+    avg_length = sum(len(m.message_text) for m in messages) / total if total > 0 else 0
+    link_count = sum(1 for m in messages if "http" in m.message_text)
     link_density = link_count / total if total > 0 else 0
-
-    score = compute_score(spam_rate)
-    status = get_status(score)
-
+    
     return {
         "sender_id": sender_id,
         "spam_rate": spam_rate,
         "link_density": link_density,
         "avg_length": avg_length,
         "volume": total,
-        "score": score,
-        "status": status
+        "score": sender.score,
+        "status": sender.status,
+        "history": [m.is_spam for m in messages]
     }

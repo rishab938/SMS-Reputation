@@ -1,58 +1,28 @@
-from fastapi import APIRouter
-import json
-import os
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
+from backend.app.db.session import get_db
+from backend.app.models.db_models import Sender
+from backend.app.api.deps import get_current_user
 
 router = APIRouter()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-LIVE_PATH = os.path.join(BASE_DIR, "../../../data/senders.json")
-DATASET_PATH = os.path.join(BASE_DIR, "../../../data/dataset_senders.json")
-
-
-def load_json(path):
-    if not os.path.exists(path):
-        return {}
-
-    try:
-        with open(path, "r") as f:
-            return json.load(f)
-    except:
-        return {}
-
-
 @router.get("/dashboard")
-def get_dashboard():
-
-    live_data = load_json(LIVE_PATH)
-    dataset = load_json(DATASET_PATH)
-
-    all_senders = []
-
-    # 🔹 dataset (list)
-    if isinstance(dataset, list):
-        all_senders.extend(dataset)
-
-    # 🔹 live (dict)
-    if isinstance(live_data, dict):
-        all_senders.extend(live_data.values())
-
-    total_senders = len(all_senders)
-
+def get_dashboard(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    total_senders = db.query(Sender).count()
+    
     if total_senders == 0:
         return {
             "total_senders": 0,
             "average_score": 0,
             "alerts": 0
         }
-
-    total_score = sum(sender.get("score", 0) for sender in all_senders)
-    avg_score = round(total_score / total_senders, 2)
-
-    alerts = sum(1 for sender in all_senders if sender.get("status") == "Malicious")
-
+        
+    avg_score = db.query(func.avg(Sender.score)).scalar()
+    alerts = db.query(Sender).filter(Sender.status == "Malicious").count()
+    
     return {
         "total_senders": total_senders,
-        "average_score": avg_score,
+        "average_score": round(avg_score, 2) if avg_score else 0,
         "alerts": alerts
     }

@@ -9,6 +9,18 @@ ml/models/
 __pycache__/
 *.pyc
 *.pyo
+venv/
+.venv/
+
+# Node artifacts
+node_modules/
+dist/
+build/
+.next/
+
+# Env files
+.env
+.env.local
 
 # Jupyter notebooks
 .ipynb_checkpoints/
@@ -16,3 +28,13 @@ ml/notebooks/
 
 # Zips
 *.zip
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Agent files
+.agents/
+scratch/
+skills-lock.json
+.gemini/
