@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from backend.app.db.session import get_db
-from backend.app.services.sender_service import update_sender
-from backend.app.api.deps import get_current_user
+from app.db.session import get_db
+from app.services.sender_service import update_sender
+from app.api.deps import get_current_user
 
 # Mock model or real import if available
-# from backend.app.ml.model import predict_sms
+# from app.ml.model import predict_sms
 
 router = APIRouter()
 

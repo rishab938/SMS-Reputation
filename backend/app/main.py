@@ -2,8 +2,8 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.app.api.routes import leaderboard, predict, sender, dashboard, auth
-from backend.app.db.session import engine, Base
+from app.api.routes import leaderboard, predict, sender, dashboard, auth
+from app.db.session import engine, Base
 
 # Create tables
 Base.metadata.create_all(bind=engine)

@@ -1,5 +1,5 @@
-from backend.app.services.storage_service import load_data
-from backend.app.services.sender_service import get_sender_data
+from app.services.storage_service import load_data
+from app.services.sender_service import get_sender_data
 
 def get_dashboard_data():
     data = load_data()

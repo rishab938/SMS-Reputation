@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from backend.app.models.db_models import Sender, Message
-from backend.app.services.scoring_service import compute_score, get_status
+from app.models.db_models import Sender, Message
+from app.services.scoring_service import compute_score, get_status
 
 def update_sender(db: Session, sender_id: str, message_text: str, is_spam: bool):
     """

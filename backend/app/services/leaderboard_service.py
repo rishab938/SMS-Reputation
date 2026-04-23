@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from backend.app.models.db_models import Sender
+from app.models.db_models import Sender
 
 def get_leaderboard(db: Session):
     # Fetch all senders ordered by score descending
