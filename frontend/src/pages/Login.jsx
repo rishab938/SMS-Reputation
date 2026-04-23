@@ -26,7 +26,17 @@ function Login() {
       localStorage.setItem("username", response.data.username);
       navigate("/dashboard");
     } catch (err) {
-      setError("Identification failed. Access Denied.");
+      if (err.response) {
+        if (err.response.status === 401) {
+          setError("Identification failed. Access Denied.");
+        } else {
+          setError(`Server Error: ${err.response.data?.detail || "Unknown error"}`);
+        }
+      } else if (err.request) {
+        setError("Network Error: Could not reach the security gate.");
+      } else {
+        setError("System Error: Request failed to initialize.");
+      }
       console.error(err);
     } finally {
       setIsLoading(false);
