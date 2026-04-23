@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sms-reputation-backend
+    env: python
+    region: singapore # Change if needed
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHONPATH
+        value: ..
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:5173"
