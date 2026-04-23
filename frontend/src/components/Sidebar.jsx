@@ -11,7 +11,7 @@ function Sidebar() {
   ];
 
   return (
-    <div className="w-72 border-r z-20 flex flex-col h-full relative" style={{ backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--zeabur-border)', backdropFilter: 'var(--glass-blur)' }}>
+    <div className="w-72 z-20 flex flex-col h-full relative sidebar-container">
       {/* Brand Header */}
       <div className="p-10">
         <div className="flex items-center gap-3 group">

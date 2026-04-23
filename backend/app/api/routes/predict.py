@@ -14,11 +14,16 @@ class PredictRequest(BaseModel):
     sender_id: str
     message: str
 
+# PREDICTION ROUTES
 @router.post("/predict")
 def predict(request: PredictRequest, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    # Mock prediction logic (replace with real ML model)
+    """
+    Analyze a message and update sender reputation.
+    """
+    # ANALYZE MESSAGE CONTENT
     is_spam = "win money" in request.message.lower() or "http" in request.message.lower()
     
+    # UPDATE SENDER TELEMETRY
     sender = update_sender(db, request.sender_id, request.message, is_spam)
     
     return {

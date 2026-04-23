@@ -52,7 +52,7 @@ function Dashboard() {
     <div className="space-y-8 animate-fade-up">
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="stat-card group hover:ring-2 hover:ring-zeabur-blue/30">
+        <div className="glass-card p-6 relative overflow-hidden group hover:ring-2 hover:ring-zeabur-blue/30">
           <div className="absolute top-0 right-0 w-32 h-32 bg-zeabur-blue/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-zeabur-blue/10 transition-colors"></div>
           <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">Active Senders</p>
           <h3 className="text-4xl font-black text-text-main mt-1 tracking-tighter">{stats.total_senders}</h3>
@@ -62,7 +62,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="stat-card group hover:ring-2 hover:ring-safe/30">
+        <div className="glass-card p-6 relative overflow-hidden group hover:ring-2 hover:ring-safe/30">
           <div className="absolute top-0 right-0 w-32 h-32 bg-safe/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-safe/10 transition-colors"></div>
           <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">Reputation Avg</p>
           <h3 className="text-4xl font-black text-text-main mt-1 tracking-tighter">{Math.round(stats.average_score)}%</h3>
@@ -72,7 +72,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="stat-card group hover:ring-2 hover:ring-alert/30">
+        <div className="glass-card p-6 relative overflow-hidden group hover:ring-2 hover:ring-alert/30">
           <div className="absolute top-0 right-0 w-32 h-32 bg-alert/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-alert/10 transition-colors"></div>
           <p className="text-[10px] font-black text-text-dim uppercase tracking-widest">Risk Alerts</p>
           <h3 className="text-4xl font-black text-alert mt-1 tracking-tighter">{stats.alerts}</h3>
@@ -96,7 +96,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="h-64 w-full relative">
+          <div className="h-[300px] w-full relative graph-container">
             <svg viewBox="0 0 100 100" className="w-full h-full preserve-3d" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">

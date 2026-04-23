@@ -13,6 +13,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    document.body.className = `${theme}-theme`;
     localStorage.setItem("theme", theme);
   }, [theme]);
 
@@ -48,13 +49,6 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex h-screen bg-zeabur-bg text-gray-300 font-sans overflow-hidden relative" data-theme={theme}>
-      {/* Global Space Background */}
-      <div className="space-bg">
-        <div className="star-field"></div>
-        <div className="star-field-2"></div>
-        <div className="star-field-3"></div>
-      </div>
-
       {/* Sidebar */}
       <Sidebar />
 
@@ -137,7 +131,7 @@ const Layout = ({ children }) => {
         </header>
 
         {/* Dynamic Content */}
-        <main className="flex-1 overflow-y-auto p-8 relative z-0">
+        <main className="flex-1 overflow-y-auto p-8 relative z-0 premium-dashboard-bg">
           <div className="max-w-7xl mx-auto h-full">
             {children}
           </div>

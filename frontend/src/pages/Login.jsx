@@ -12,6 +12,7 @@ function Login() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    document.body.className = `${theme}-theme`;
   }, [theme]);
 
   const handleLogin = async (e) => {
@@ -34,36 +35,36 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-zeabur-bg" data-theme={theme}>
-      {/* Space Background Layer */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
-        style={{ 
-          backgroundImage: 'url("/assets/images/login-bg.png")',
-          filter: 'brightness(0.6) contrast(1.1)',
-          opacity: theme === 'dark' ? 1 : 0
-        }}
-      ></div>
+      {/* Dynamic Background Layer */}
+      <div className="login-bg"></div>
 
-      {/* Star Field Overlay */}
-      <div className="absolute inset-0 z-1 pointer-events-none opacity-40" style={{ opacity: theme === 'dark' ? 0.4 : 0 }}>
-        {[...Array(50)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute bg-white rounded-full animate-pulse"
-            style={{
-              width: Math.random() * 2 + 'px',
-              height: Math.random() * 2 + 'px',
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-              animationDelay: Math.random() * 5 + 's',
-              animationDuration: Math.random() * 3 + 2 + 's'
-            }}
-          ></div>
-        ))}
-      </div>
+      {/* Star Field Overlay (Dark Theme Only) */}
+      {theme === 'dark' && (
+        <div className="absolute inset-0 z-1 pointer-events-none opacity-40">
+          {[...Array(50)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute bg-white rounded-full animate-pulse"
+              style={{
+                width: Math.random() * 2 + 'px',
+                height: Math.random() * 2 + 'px',
+                top: Math.random() * 100 + '%',
+                left: Math.random() * 100 + '%',
+                animationDelay: Math.random() * 5 + 's',
+                animationDuration: Math.random() * 3 + 2 + 's'
+              }}
+            ></div>
+          ))}
+        </div>
+      )}
 
-      {/* Gradient Glow */}
+      {/* Global Depth Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-zeabur-purple/10 rounded-full blur-[120px] z-2"></div>
+      
+      {/* Light Theme Depth Accent */}
+      {theme === 'light' && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-white/20 rounded-full blur-[100px] z-2"></div>
+      )}
 
       <div className="w-full max-w-md relative z-10 animate-fade-up">
         {/* Glass Card */}

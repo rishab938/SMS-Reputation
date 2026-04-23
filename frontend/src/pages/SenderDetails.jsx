@@ -207,7 +207,7 @@ function SenderDetails() {
           </div>
         </div>
 
-        <div className="h-[250px] w-full relative overflow-hidden bg-white/[0.01] rounded-xl border border-white/5">
+        <div className="h-[300px] w-full relative graph-container">
           <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
             <defs>
               <linearGradient id="trendGradient" x1="0%" y1="0%" x2="0%" y2="100%">

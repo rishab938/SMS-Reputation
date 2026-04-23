@@ -7,6 +7,7 @@ from backend.app.api.deps import get_current_user
 
 router = APIRouter()
 
+# DASHBOARD ROUTES
 @router.get("/dashboard")
 def get_dashboard(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     total_senders = db.query(Sender).count()

@@ -6,6 +6,7 @@ from backend.app.api.deps import get_current_user
 
 router = APIRouter()
 
+# SENDER ROUTES
 @router.get("/sender/{sender_id}")
 def get_sender(sender_id: str, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     data = get_sender_data(db, sender_id)

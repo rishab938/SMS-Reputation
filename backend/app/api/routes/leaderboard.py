@@ -6,6 +6,7 @@ from backend.app.api.deps import get_current_user
 
 router = APIRouter()
 
+# LEADERBOARD ROUTES
 @router.get("/leaderboard")
 def leaderboard(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     return get_leaderboard(db)

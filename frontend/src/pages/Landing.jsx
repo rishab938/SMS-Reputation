@@ -3,17 +3,30 @@ import { useNavigate } from "react-router-dom";
 
 function Landing() {
   const navigate = useNavigate();
-  const [theme] = useState(localStorage.getItem("theme") || "dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    document.body.className = `${theme}-theme`;
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
+  const toggleTheme = () => {
+    setTheme(prev => prev === "dark" ? "light" : "dark");
+  };
+
   return (
-    <div className="min-h-screen bg-zeabur-bg selection:bg-zeabur-purple/30 selection:text-text-main overflow-hidden relative" data-theme={theme}>
-      {/* Background Ambient Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-zeabur-purple/20 rounded-full blur-[120px] animate-glow pointer-events-none z-0"></div>
-      <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-zeabur-blue/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+    <div className="min-h-screen selection:bg-zeabur-purple/30 selection:text-text-main overflow-hidden relative" data-theme={theme}>
+      {/* Dynamic Background Layer */}
+      <div className="landing-bg"></div>
+
+      {/* Background Ambient Glows (Dark Theme Only) */}
+      {theme === 'dark' && (
+        <>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-zeabur-purple/20 rounded-full blur-[120px] animate-glow pointer-events-none z-[-1]"></div>
+          <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-zeabur-blue/10 rounded-full blur-[100px] pointer-events-none z-[-1]"></div>
+        </>
+      )}
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full h-20 border-b border-white/5 backdrop-blur-md z-50 px-6 md:px-20 flex items-center justify-between" style={{ backgroundColor: 'var(--header-bg)', borderColor: 'var(--zeabur-border)' }}>
@@ -32,6 +45,13 @@ function Landing() {
         </div>
 
         <div className="flex items-center gap-4">
+          <button 
+            onClick={toggleTheme}
+            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-lg mr-2"
+            style={{ borderColor: 'var(--zeabur-border)', color: 'var(--text-main)' }}
+          >
+            {theme === "dark" ? "🌙" : "☀️"}
+          </button>
           <button 
             onClick={() => navigate('/login')}
             className="secondary-button"
